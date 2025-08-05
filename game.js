@@ -17,14 +17,8 @@ function getComputerChoice() {
   }
 }
 
-// Get user's rps.
-function getHumanChoice() {
-  let choice = prompt("Rock, paper or scissors!");
-  return choice;
-}
-
-function playRound(userSelection, computerSelection) {
-  let humanSelection = userSelection.toLowerCase();
+function playRound(humanSelection) {
+  let computerSelection = getComputerChoice();
   let message = "";
   if (humanSelection == computerSelection) {
     message = "A tie!";
@@ -54,37 +48,48 @@ function playRound(userSelection, computerSelection) {
       humanScore += 1;
     }
   }
-  console.log(message);
+  // let buttonsDiv = document.querySelector("#button");
+
+  consoleDiv.textContent = message;
+  let resultMessage = `Your score: ${humanScore}\n Computer score: ${computerScore}`;
+  resultDiv.textContent = resultMessage;
 }
 
-function playGame() {
-  let humanSelection = getHumanChoice();
-  let computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  if (humanScore > computerScore) {
-    console.log("You win!");
-  } else if (humanScore < computerScore) {
-    console.log("You lose!");
-  } else {
-    ("A tie!");
+function checkWinner() {
+  let winnerMessage = "";
+  if (humanScore == 5 && computerScore < 5) {
+    winnerMessage = "Winner is you!";
+    winnerDiv.textContent = winnerMessage;
+  }
+  if (humanScore < 5 && computerScore == 5) {
+    winnerMessage = "Winner is computer!";
+    winnerDiv.textContent = winnerMessage;
   }
 }
 
-playGame();
+let buttonsDiv = document.querySelector("#button");
+let consoleDiv = document.createElement("div");
+let resultDiv = document.createElement("div");
+let winnerDiv = document.createElement("div");
+buttonsDiv.appendChild(consoleDiv);
+buttonsDiv.appendChild(resultDiv);
+buttonsDiv.appendChild(winnerDiv);
+
+buttonsDiv.addEventListener("click", (event) => {
+  let target = event.target;
+
+  switch (target.id) {
+    case "rock":
+      playRound("rock");
+      checkWinner();
+      break;
+    case "paper":
+      playRound("paper");
+      checkWinner();
+      break;
+    case "scissors":
+      playRound("scissors");
+      checkWinner();
+      break;
+  }
+});
